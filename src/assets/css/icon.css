@@ -1,0 +1,5 @@
+@import url(https://at.alicdn.com/t/font_3348932_l9620h005ho.css);
+[class*=' el-icon-lx'],
+[class^='el-icon-lx'] {
+  font-family: lx-iconfont !important;
+}
