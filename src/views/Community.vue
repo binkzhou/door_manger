@@ -16,6 +16,7 @@
         header-cell-class-name="table-header"
       >
         <el-table-column prop="id" label="ID" width="250"></el-table-column>
+        <el-table-column prop="name" label="小区名"></el-table-column>
         <el-table-column prop="creatorId" label="创建者ID"></el-table-column>
         <el-table-column prop="province" label="省"></el-table-column>
         <el-table-column prop="city" label="城市"></el-table-column>
@@ -201,7 +202,7 @@ const handleDeleteCommunity = async (index, row) => {
 
 // 查看门禁
 const handleOpenDoor = (index, row) => {
-  router.push({ path: '/door', query: { communityId: row.id } });
+  router.push({ path: '/admin/door', query: { communityId: row.id } });
 };
 </script>
 

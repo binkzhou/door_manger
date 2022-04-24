@@ -2,6 +2,18 @@
  * api
  */
 import { request } from './interceptors';
+
+/**
+ * 登录
+ */
+export const loginApi = (data) => {
+  return request({
+    url: '/user/login',
+    method: 'POST',
+    data,
+  });
+};
+
 /**
  * 获取用户量列表
  */
@@ -127,11 +139,11 @@ export const getActionCall = (doorId) => {
 /**
  * 锁门
  */
-export const getActionLock = (data) => {
+export const getActionLock = (params) => {
   return request({
     url: '/action/lock',
     method: 'POST',
-    data,
+    params,
   });
 };
 /**

@@ -4,42 +4,19 @@ import Home from '../views/Home.vue';
 const routes = [
   {
     path: '/',
-    redirect: '/user',
+    redirect: '/community',
   },
   {
-    path: '/',
+    path: '/admin',
+    redirect: '/admin/user',
+  },
+  {
+    path: '/admin',
     name: 'Home',
     component: Home,
     children: [
       {
-        path: '/dashboard',
-        name: 'dashboard',
-        meta: {
-          title: '系统首页',
-        },
-        component: () =>
-          import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
-      },
-      {
-        path: '/product',
-        name: 'product',
-        meta: {
-          title: '所有产品',
-        },
-        component: () =>
-          import(/* webpackChunkName: "product" */ '../views/Product.vue'),
-      },
-      {
-        path: '/category',
-        name: 'category',
-        meta: {
-          title: '产品分类',
-        },
-        component: () =>
-          import(/* webpackChunkName: "category" */ '../views/Category.vue'),
-      },
-      {
-        path: '/user',
+        path: '/admin/user',
         name: 'user',
         meta: {
           title: '用户管理',
@@ -48,7 +25,7 @@ const routes = [
           import(/* webpackChunkName: "user" */ '../views/User.vue'),
       },
       {
-        path: '/community',
+        path: '/admin/community',
         name: 'community',
         meta: {
           title: '小区管理',
@@ -57,7 +34,7 @@ const routes = [
           import(/* webpackChunkName: "community" */ '../views/Community.vue'),
       },
       {
-        path: '/door',
+        path: '/admin/door',
         name: 'door',
         meta: {
           title: '门禁管理',
@@ -66,160 +43,13 @@ const routes = [
           import(/* webpackChunkName: "door" */ '../views/Door.vue'),
       },
       {
-        path: '/log',
+        path: '/admin/log',
         name: 'log',
         meta: {
           title: '日志管理',
         },
         component: () =>
           import(/* webpackChunkName: "log" */ '../views/Log.vue'),
-      },
-      {
-        path: '/order',
-        name: 'order',
-        meta: {
-          title: '全部订单',
-        },
-        component: () =>
-          import(/* webpackChunkName: "order" */ '../views/Order.vue'),
-      },
-      {
-        path: '/reward',
-        name: 'reward',
-        meta: {
-          title: '打赏信息',
-        },
-        component: () =>
-          import(/* webpackChunkName: "reward" */ '../views/Reward.vue'),
-      },
-      {
-        path: '/account',
-        name: 'account',
-        meta: {
-          title: '我的账户',
-        },
-        component: () =>
-          import(/* webpackChunkName: "account" */ '../views/Account.vue'),
-      },
-      {
-        path: '/table',
-        name: 'basetable',
-        meta: {
-          title: '表格',
-        },
-        component: () =>
-          import(/* webpackChunkName: "table" */ '../views/BaseTable.vue'),
-      },
-      {
-        path: '/charts',
-        name: 'basecharts',
-        meta: {
-          title: '图表',
-        },
-        component: () =>
-          import(/* webpackChunkName: "charts" */ '../views/BaseCharts.vue'),
-      },
-      {
-        path: '/form',
-        name: 'baseform',
-        meta: {
-          title: '表单',
-        },
-        component: () =>
-          import(/* webpackChunkName: "form" */ '../views/BaseForm.vue'),
-      },
-      {
-        path: '/tabs',
-        name: 'tabs',
-        meta: {
-          title: 'tab标签',
-        },
-        component: () =>
-          import(/* webpackChunkName: "tabs" */ '../views/Tabs.vue'),
-      },
-      {
-        path: '/donate',
-        name: 'donate',
-        meta: {
-          title: '鼓励作者',
-        },
-        component: () =>
-          import(/* webpackChunkName: "donate" */ '../views/Donate.vue'),
-      },
-      {
-        path: '/permission',
-        name: 'permission',
-        meta: {
-          title: '权限管理',
-          permission: true,
-        },
-        component: () =>
-          import(
-            /* webpackChunkName: "permission" */ '../views/Permission.vue'
-          ),
-      },
-      {
-        path: '/i18n',
-        name: 'i18n',
-        meta: {
-          title: '国际化语言',
-        },
-        component: () =>
-          import(/* webpackChunkName: "i18n" */ '../views/I18n.vue'),
-      },
-      {
-        path: '/upload',
-        name: 'upload',
-        meta: {
-          title: '上传插件',
-        },
-        component: () =>
-          import(/* webpackChunkName: "upload" */ '../views/Upload.vue'),
-      },
-      {
-        path: '/icon',
-        name: 'icon',
-        meta: {
-          title: '自定义图标',
-        },
-        component: () =>
-          import(/* webpackChunkName: "icon" */ '../views/Icon.vue'),
-      },
-      {
-        path: '/404',
-        name: '404',
-        meta: {
-          title: '找不到页面',
-        },
-        component: () =>
-          import(/* webpackChunkName: "404" */ '../views/404.vue'),
-      },
-      {
-        path: '/403',
-        name: '403',
-        meta: {
-          title: '没有权限',
-        },
-        component: () =>
-          import(/* webpackChunkName: "403" */ '../views/403.vue'),
-      },
-      {
-        path: '/user1',
-        name: 'user1',
-        meta: {
-          title: '个人中心',
-        },
-        component: () =>
-          import(/* webpackChunkName: "user" */ '../views/Account.vue'),
-      },
-      {
-        path: '/editor',
-        name: 'editor',
-        meta: {
-          title: '富文本编辑器',
-        },
-        component: () =>
-          import(/* webpackChunkName: "editor" */ '../views/Editor.vue'),
       },
     ],
   },
@@ -232,6 +62,24 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "login" */ '../views/Login.vue'),
   },
+  {
+    path: '/community',
+    name: 'my_community',
+    meta: {
+      title: '社区',
+    },
+    component: () =>
+      import(/* webpackChunkName: "community" */ '../views/UserCommunity.vue'),
+  },
+  {
+    path: '/door',
+    name: 'my_door',
+    meta: {
+      title: '门禁',
+    },
+    component: () =>
+      import(/* webpackChunkName: "door" */ '../views/UserDoor.vue'),
+  },
 ];
 
 const router = createRouter({
@@ -241,7 +89,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} | vue-manage-system`;
-  const role = localStorage.getItem('ms_username');
+  const role = localStorage.getItem('token');
   console.log('to', to);
   if (!role && to.path !== '/login') {
     next('/login');

@@ -1,12 +1,13 @@
 <template>
   <div>
-    <el-row :gutter="20">
-      <el-col :span="24">
-        <el-row :gutter="24" class="mgb20">
+    <div class="title">门禁</div>
+    <el-row :gutter="20" class="list">
+      <el-col :span="21">
+        <el-row :gutter="21" class="mgb20">
           <el-col
             :key="index"
             v-for="(door, index) in doors"
-            :span="6"
+            :span="7"
             class="mgb10"
           >
             <el-card shadow="hover" :body-style="{ padding: '0px' }">
@@ -32,19 +33,6 @@
                     <i class="iconfont icon-jiesuo"></i>
                     <span>解锁门禁</span>
                   </div>
-                  <div class="delete" @click="deleteDoor(door.id)">
-                    <i class="iconfont icon-shanchu"></i>
-                  </div>
-                </div>
-              </div>
-            </el-card>
-          </el-col>
-          <el-col :span="6" class="mgb10">
-            <el-card shadow="hover" :body-style="{ padding: '0px' }">
-              <div class="add_dor" @click="addDoorVisible = true">
-                <div>
-                  <i class="el-icon-lx-add" />
-                  <span>新建门禁信息</span>
                 </div>
               </div>
             </el-card>
@@ -111,20 +99,10 @@ const communityId = route.query.communityId;
 const doors = ref([]);
 // 是否显示弹窗
 let unlockVisible = ref(false);
-// 是否显示添加门禁弹窗
-const addDoorVisible = ref(false);
 const form = ref({
   doorId: '',
   password: '',
 });
-
-const doorControlFrom = ref({
-  buildingNumber: '',
-  communityId: '',
-  password: '',
-});
-
-doorControlFrom.value.communityId = communityId;
 
 // 校验表单是否为空
 const formRef = ref(null);
@@ -135,11 +113,6 @@ const rules = ref({
   password: [{ required: true, trigger: 'blur' }],
 });
 
-// 表单验证规则
-const doorRules = ref({
-  buildingNumber: [{ required: true, trigger: 'blur' }],
-  password: [{ required: true, trigger: 'blur' }],
-});
 onBeforeMount(async () => {
   const data = await getDoors(communityId);
   doors.value = data;
@@ -198,47 +171,19 @@ const handleOpen = async () => {
     }
   });
 };
-
-// 添加门禁
-const handleAddDor = async () => {
-  addDoorRef.value.validate(async (valid) => {
-    if (valid) {
-      const res = await addDoor(doorControlFrom.value);
-      if (res) {
-        ElMessage.success('添加成功');
-        doors.value.push({
-          id: res,
-          buildingNumber: doorControlFrom.value.buildingNumber,
-        });
-      } else {
-        ElMessage.error('添加失败');
-      }
-      doorControlFrom.value = {
-        communityId,
-        buildingNumber: '',
-        password: '',
-      };
-      addDoorVisible.value = false;
-    }
-  });
-};
-
-// 删除门禁
-const deleteDoor = async (doorId) => {
-  const res = await delateDoor(doorId);
-  if (res === '删除成功') {
-    ElMessage.success('删除成功');
-    const index = doors.value.findIndex((item) => item.id === doorId);
-    if (index !== 1) {
-      doors.value.splice(index, 1);
-    }
-  } else {
-    ElMessage.error('删除失败');
-  }
-};
 </script>
 
 <style scoped>
+.title {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  font-size: 50px;
+}
+.list {
+  display: flex;
+  justify-content: center;
+}
 .handle-box {
   margin-bottom: 20px;
 }
@@ -284,7 +229,7 @@ const deleteDoor = async (doorId) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 235px;
+  height: 265px;
 }
 
 .grid-cont-right {
