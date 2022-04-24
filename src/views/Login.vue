@@ -69,7 +69,7 @@ export default {
           if (res && res.isLogin) {
             localStorage.setItem('token', res.token);
             ElMessage.success('登录成功');
-            router.push('/');
+            router.push('/admin');
           } else {
             ElMessage.error('登录失败');
           }
