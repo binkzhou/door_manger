@@ -16,22 +16,22 @@
                   <div class="grid-num">{{ door.buildingNumber }}栋</div>
                 </div>
                 <div class="menu">
-                  <div class="call" @click="handleCall(door.id)">
+                  <!-- <div class="call" @click="handleCall(door.id)">
                     <i class="iconfont icon-24gl-phonePause"></i>
                     <span>呼叫门卫</span>
-                  </div>
-                  <div class="close" @click="handleLock(door.id)">
+                  </div> -->
+                  <!-- <div class="close" @click="handleLock(door.id)">
                     <i class="iconfont icon-men"></i>
                     <span>锁门</span>
-                  </div>
-                  <div class="camera" @click="handleCamera(door.id)">
+                  </div> -->
+                  <div class="camera" @click="handleOpenCameral(door.id)">
                     <i class="iconfont icon-bayonet-camera"></i>
                     <span>开摄像头</span>
                   </div>
-                  <div class="open" @click="handleOpenVisible(door.id)">
+                  <!-- <div class="open" @click="handleOpenVisible(door.id)">
                     <i class="iconfont icon-jiesuo"></i>
                     <span>解锁门禁</span>
-                  </div>
+                  </div> -->
                   <div class="delete" @click="deleteDoor(door.id)">
                     <i class="iconfont icon-shanchu"></i>
                   </div>
@@ -90,6 +90,25 @@
         </span>
       </template>
     </el-dialog>
+
+    <!-- 摄像头 -->
+    <el-dialog title="打开摄像头" v-model="cameralVisible" width="30%">
+      <el-select v-model="value" placeholder="请选择" style="width: 100%">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="addDoorVisible = false">取 消</el-button>
+          <el-button type="primary" @click="handleCamera">打开摄像头</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -109,8 +128,11 @@ import { ElMessage } from 'element-plus';
 const route = useRoute();
 const communityId = route.query.communityId;
 const doors = ref([]);
+const doorId = ref('');
 // 是否显示弹窗
 let unlockVisible = ref(false);
+// 摄像头
+const cameralVisible = ref(false);
 // 是否显示添加门禁弹窗
 const addDoorVisible = ref(false);
 const form = ref({
@@ -123,7 +145,21 @@ const doorControlFrom = ref({
   communityId: '',
   password: '',
 });
-
+const options = ref([
+  {
+    value: '1',
+    label: '呼叫门卫',
+  },
+  {
+    value: '2',
+    label: '开门',
+  },
+  {
+    value: '3',
+    label: '锁门',
+  },
+]);
+const value = ref('1');
 doorControlFrom.value.communityId = communityId;
 
 // 校验表单是否为空
@@ -149,7 +185,7 @@ onBeforeMount(async () => {
 const handleCall = async (doorId) => {
   const res = await getActionCall(doorId);
   if (res === '呼叫成功！') {
-    ElMessage.success('呼叫成功');
+    // ElMessage.success('呼叫成功');
   } else {
     ElMessage.success('呼叫失败');
   }
@@ -168,18 +204,24 @@ const handleLock = async (doorId) => {
 };
 
 // 打开摄像头
-const handleCamera = async (doorId) => {
-  const res = await getActionStart('1');
+const handleCamera = async () => {
+  const res = await getActionStart(value.value);
   if (res === 1) {
-    ElMessage.success('摄像头打开成功');
-  } else {
-    ElMessage.error('摄像头打开失败');
+    handleCall(doorId.value);
   }
+  if (res === 2) {
+    unlockVisible.value = true;
+  }
+  if (res === 3) {
+    handleLock(doorId.value);
+  }
+  cameralVisible.value = false;
 };
 
 // 解锁门禁
 const handleOpenVisible = async (doorId) => {
   form.value.doorId = doorId;
+  console.log(doorId);
   unlockVisible.value = true;
 };
 
@@ -235,6 +277,12 @@ const deleteDoor = async (doorId) => {
   } else {
     ElMessage.error('删除失败');
   }
+};
+
+// 打开摄像头
+const handleOpenCameral = (_doorId) => {
+  doorId.value = _doorId;
+  cameralVisible.value = true;
 };
 </script>
 

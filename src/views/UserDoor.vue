@@ -17,22 +17,10 @@
                   <div class="grid-num">{{ door.buildingNumber }}栋</div>
                 </div>
                 <div class="menu">
-                  <!-- <div class="call" @click="handleCall(door.id)">
-                    <i class="iconfont icon-24gl-phonePause"></i>
-                    <span>呼叫门卫</span>
-                  </div> -->
-                  <!-- <div class="close" @click="handleLock(door.id)">
-                    <i class="iconfont icon-men"></i>
-                    <span>锁门</span>
-                  </div> -->
                   <div class="camera" @click="handleOpenCameral(door.id)">
                     <i class="iconfont icon-bayonet-camera"></i>
                     <span>开摄像头</span>
                   </div>
-                  <!-- <div class="open" @click="handleOpenVisible(door.id)">
-                    <i class="iconfont icon-jiesuo"></i>
-                    <span>解锁门禁</span>
-                  </div> -->
                 </div>
               </div>
             </el-card>
@@ -104,8 +92,6 @@
 import { ref, onBeforeMount } from 'vue';
 import {
   getDoors,
-  addDoor,
-  delateDoor,
   getActionCall,
   getActionLock,
   getActionStart,
@@ -160,7 +146,7 @@ onBeforeMount(async () => {
 const handleCall = async (doorId) => {
   const res = await getActionCall(doorId);
   if (res === '呼叫成功！') {
-    ElMessage.success('呼叫成功');
+    // ElMessage.success('呼叫成功');
   } else {
     ElMessage.success('呼叫失败');
   }
@@ -190,6 +176,7 @@ const handleCamera = async () => {
   if (res === 3) {
     handleLock(doorId.value);
   }
+  cameralVisible.value = false;
 };
 
 // 解锁门禁
