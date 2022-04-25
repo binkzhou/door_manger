@@ -17,22 +17,22 @@
                   <div class="grid-num">{{ door.buildingNumber }}栋</div>
                 </div>
                 <div class="menu">
-                  <div class="call" @click="handleCall(door.id)">
+                  <!-- <div class="call" @click="handleCall(door.id)">
                     <i class="iconfont icon-24gl-phonePause"></i>
                     <span>呼叫门卫</span>
-                  </div>
-                  <div class="close" @click="handleLock(door.id)">
+                  </div> -->
+                  <!-- <div class="close" @click="handleLock(door.id)">
                     <i class="iconfont icon-men"></i>
                     <span>锁门</span>
-                  </div>
-                  <div class="camera" @click="handleCamera(door.id)">
+                  </div> -->
+                  <div class="camera" @click="handleOpenCameral(door.id)">
                     <i class="iconfont icon-bayonet-camera"></i>
                     <span>开摄像头</span>
                   </div>
-                  <div class="open" @click="handleOpenVisible(door.id)">
+                  <!-- <div class="open" @click="handleOpenVisible(door.id)">
                     <i class="iconfont icon-jiesuo"></i>
                     <span>解锁门禁</span>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </el-card>
@@ -78,6 +78,25 @@
         </span>
       </template>
     </el-dialog>
+
+    <!-- 摄像头 -->
+    <el-dialog title="打开摄像头" v-model="cameralVisible" width="30%">
+      <el-select v-model="value" placeholder="请选择" style="width: 100%">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="addDoorVisible = false">取 消</el-button>
+          <el-button type="primary" @click="handleCamera">打开摄像头</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -99,11 +118,30 @@ const communityId = route.query.communityId;
 const doors = ref([]);
 // 是否显示弹窗
 let unlockVisible = ref(false);
+// 摄像头
+const cameralVisible = ref(false);
 const form = ref({
   doorId: '',
   password: '',
 });
 
+const options = ref([
+  {
+    value: '1',
+    label: '呼叫门卫',
+  },
+  {
+    value: '2',
+    label: '开门',
+  },
+  {
+    value: '3',
+    label: '锁门',
+  },
+]);
+
+const value = ref('1');
+const doorId = ref('');
 // 校验表单是否为空
 const formRef = ref(null);
 // 校验添加门禁
@@ -141,12 +179,16 @@ const handleLock = async (doorId) => {
 };
 
 // 打开摄像头
-const handleCamera = async (doorId) => {
-  const res = await getActionStart('1');
+const handleCamera = async () => {
+  const res = await getActionStart(value.value);
   if (res === 1) {
-    ElMessage.success('摄像头打开成功');
-  } else {
-    ElMessage.error('摄像头打开失败');
+    handleCall(doorId.value);
+  }
+  if (res === 2) {
+    unlockVisible.value = true;
+  }
+  if (res === 3) {
+    handleLock(doorId.value);
   }
 };
 
@@ -170,6 +212,11 @@ const handleOpen = async () => {
       unlockVisible.value = false;
     }
   });
+};
+// 打开摄像头
+const handleOpenCameral = (_doorId) => {
+  doorId.value = _doorId;
+  cameralVisible.value = true;
 };
 </script>
 

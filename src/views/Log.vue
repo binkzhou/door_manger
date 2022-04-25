@@ -8,7 +8,6 @@
         header-cell-class-name="table-header"
       >
         <el-table-column prop="id" label="ID" width="300"></el-table-column>
-        <el-table-column prop="creatorId" label="创建者ID"></el-table-column>
         <el-table-column prop="action" label="动作"></el-table-column>
         <el-table-column prop="targetName" label="targetName"></el-table-column>
         <el-table-column prop="createDate" label="创建日期"></el-table-column>
