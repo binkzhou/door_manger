@@ -93,7 +93,7 @@
 
     <!-- 摄像头 -->
     <el-dialog title="打开摄像头" v-model="cameralVisible" width="30%">
-      <el-select v-model="value" placeholder="请选择" style="width: 100%">
+      <!-- <el-select v-model="value" placeholder="请选择" style="width: 100%">
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -101,10 +101,11 @@
           :value="item.value"
         >
         </el-option>
-      </el-select>
+      </el-select> -->
+      请做出相应的手势1.开门 2.锁门 3.呼叫门卫
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="addDoorVisible = false">取 消</el-button>
+          <el-button @click="cameralVisible = false">取 消</el-button>
           <el-button type="primary" @click="handleCamera">打开摄像头</el-button>
         </span>
       </template>
@@ -205,15 +206,15 @@ const handleLock = async (doorId) => {
 
 // 打开摄像头
 const handleCamera = async () => {
-  const res = await getActionStart(value.value);
+  const res = await getActionStart();
   if (res === 1) {
-    handleCall(doorId.value);
-  }
-  if (res === 2) {
     unlockVisible.value = true;
   }
-  if (res === 3) {
+  if (res === 2) {
     handleLock(doorId.value);
+  }
+  if (res === 3) {
+    handleCall(doorId.value);
   }
   cameralVisible.value = false;
 };

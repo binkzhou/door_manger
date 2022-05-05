@@ -149,11 +149,10 @@ export const getActionLock = (params) => {
 /**
  * 打开摄像头
  */
-export const getActionStart = (testParam) => {
+export const getActionStart = () => {
   return request({
     url: '/action/start',
     method: 'GET',
-    params: { testParam },
   });
 };
 /**

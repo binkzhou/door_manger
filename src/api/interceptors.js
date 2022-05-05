@@ -6,7 +6,7 @@ import axios from 'axios';
 export function request(config) {
   const instance = axios.create({
     baseURL: 'https://mj.api.keker.icu/',
-    timeout: 5000,
+    timeout: 60000,
   });
 
   // 请求拦截
