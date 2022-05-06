@@ -165,3 +165,13 @@ export const getActionUnlock = (data) => {
     data,
   });
 };
+/**
+ * 查看密码
+ */
+export const getPassword = (doorId) => {
+  return request({
+    url: 'door/password',
+    method: 'GET',
+    params: { doorId },
+  });
+};

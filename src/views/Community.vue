@@ -51,23 +51,23 @@
     <!-- 添加社区 -->
     <el-dialog title="添加社区" v-model="addVisible" width="30%">
       <el-form label-width="90px" :rules="rules" :model="form" ref="formRef">
-        <el-form-item label="city" prop="city">
-          <el-input v-model="form.city"></el-input>
-        </el-form-item>
-        <el-form-item label="cityProper" prop="cityProper">
-          <el-input v-model="form.cityProper"></el-input>
-        </el-form-item>
-        <el-form-item label="description" prop="description">
-          <el-input v-model="form.description"></el-input>
-        </el-form-item>
-        <el-form-item label="name" prop="name">
-          <el-input v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item label="province" prop="province">
+        <el-form-item label="省份" prop="province">
           <el-input v-model="form.province"></el-input>
         </el-form-item>
-        <el-form-item label="street" prop="street">
+        <el-form-item label="城市" prop="city">
+          <el-input v-model="form.city"></el-input>
+        </el-form-item>
+        <el-form-item label="市区" prop="cityProper">
+          <el-input v-model="form.cityProper"></el-input>
+        </el-form-item>
+        <el-form-item label="小区名" prop="name">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item label="街道" prop="street">
           <el-input v-model="form.street"></el-input>
+        </el-form-item>
+        <el-form-item label="描述" prop="description">
+          <el-input v-model="form.description"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>

@@ -19,22 +19,22 @@
                   <!-- <div class="call" @click="handleCall(door.id)">
                     <i class="iconfont icon-24gl-phonePause"></i>
                     <span>呼叫门卫</span>
-                  </div> -->
-                  <!-- <div class="close" @click="handleLock(door.id)">
+                  </div>
+                  <div class="close" @click="handleLock(door.id)">
                     <i class="iconfont icon-men"></i>
                     <span>锁门</span>
-                  </div> -->
+                  </div>
                   <div class="camera" @click="handleOpenCameral(door.id)">
                     <i class="iconfont icon-bayonet-camera"></i>
                     <span>开摄像头</span>
-                  </div>
-                  <!-- <div class="open" @click="handleOpenVisible(door.id)">
-                    <i class="iconfont icon-jiesuo"></i>
-                    <span>解锁门禁</span>
                   </div> -->
-                  <div class="delete" @click="deleteDoor(door.id)">
-                    <i class="iconfont icon-shanchu"></i>
+                  <div class="open" @click="handleOpenPassword(door.id)">
+                    <i class="iconfont icon-jiesuo"></i>
+                    <span>查看密码</span>
                   </div>
+                  <!-- <div class="delete" @click="deleteDoor(door.id)">
+                    <i class="iconfont icon-shanchu"></i>
+                  </div> -->
                 </div>
               </div>
             </el-card>
@@ -92,23 +92,8 @@
     </el-dialog>
 
     <!-- 摄像头 -->
-    <el-dialog title="打开摄像头" v-model="cameralVisible" width="30%">
-      <!-- <el-select v-model="value" placeholder="请选择" style="width: 100%">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select> -->
-      请做出相应的手势1.开门 2.锁门 3.呼叫门卫
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="cameralVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleCamera">打开摄像头</el-button>
-        </span>
-      </template>
+    <el-dialog title="密码" v-model="cameralVisible" width="30%">
+      {{ password }}
     </el-dialog>
   </div>
 </template>
@@ -123,6 +108,7 @@ import {
   getActionLock,
   getActionStart,
   getActionUnlock,
+  getPassword,
 } from '../api/index';
 import { useRoute } from 'vue-router';
 import { ElMessage } from 'element-plus';
@@ -130,6 +116,7 @@ const route = useRoute();
 const communityId = route.query.communityId;
 const doors = ref([]);
 const doorId = ref('');
+const password = ref('');
 // 是否显示弹窗
 let unlockVisible = ref(false);
 // 摄像头
@@ -283,6 +270,13 @@ const deleteDoor = async (doorId) => {
 // 打开摄像头
 const handleOpenCameral = (_doorId) => {
   doorId.value = _doorId;
+  cameralVisible.value = true;
+};
+
+// 查看密码
+const handleOpenPassword = async (_doorId) => {
+  const res = await getPassword(_doorId);
+  password.value = res;
   cameralVisible.value = true;
 };
 </script>
