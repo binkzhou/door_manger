@@ -181,7 +181,10 @@ const handleOpenVisible = async (doorId) => {
 const handleOpen = async () => {
   formRef.value.validate(async (valid) => {
     if (valid) {
-      const res = await getActionUnlock(form.value);
+      const res = await getActionUnlock({
+        doorId: doorId.value,
+        password: form.value.password,
+      });
       if (res === '开门成功') {
         ElMessage.success('开门成功');
       } else {
