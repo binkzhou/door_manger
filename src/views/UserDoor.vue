@@ -160,7 +160,7 @@ const handleLock = async (doorId) => {
 const handleCamera = async () => {
   const res = await getActionStart();
   if (res === 1) {
-    unlockVisible.value = true;
+    handleOpenVisible(doorId.value);
   }
   if (res === 2) {
     handleLock(doorId.value);
