@@ -1,6 +1,16 @@
 <template>
   <div>
     <div class="container">
+      <div class="handle-box">
+        <el-input
+          v-model="keyword"
+          placeholder="用户名"
+          class="handle-input mr10"
+        ></el-input>
+        <el-button type="primary" icon="el-icon-search" @click="handleSearch"
+          >搜索</el-button
+        >
+      </div>
       <el-table
         :data="logs"
         border
@@ -21,12 +31,19 @@ import { ref, onBeforeMount } from 'vue';
 import { getLog } from '../api/index';
 // 日志列表
 const logs = ref([]);
+const keyword = ref('');
 
 // 获取日志列表
 onBeforeMount(async () => {
   const data = await getLog();
   logs.value = data;
 });
+
+const handleSearch = async () => {
+  const value = keyword.value ? keyword.value : ' ';
+  const data = await getLog(value);
+  logs.value = data;
+};
 </script>
 
 <style scoped>

@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div class="handle-box">
+      <el-button type="primary" icon="el-icon-lx-add" @click="addVisible = true"
+        >创建小区</el-button
+      >
+    </div>
     <el-row :gutter="20">
       <el-col :span="24">
         <el-row :gutter="24" class="mgb20">
@@ -16,25 +21,17 @@
                   <div class="grid-num">{{ door.buildingNumber }}栋</div>
                 </div>
                 <div class="menu">
-                  <!-- <div class="call" @click="handleCall(door.id)">
-                    <i class="iconfont icon-24gl-phonePause"></i>
-                    <span>呼叫门卫</span>
-                  </div>
-                  <div class="close" @click="handleLock(door.id)">
+                  <div class="close" @click="handleEdit(door)">
                     <i class="iconfont icon-men"></i>
-                    <span>锁门</span>
+                    <span>编辑</span>
                   </div>
-                  <div class="camera" @click="handleOpenCameral(door.id)">
-                    <i class="iconfont icon-bayonet-camera"></i>
-                    <span>开摄像头</span>
-                  </div> -->
                   <div class="open" @click="handleOpenPassword(door.id)">
                     <i class="iconfont icon-jiesuo"></i>
                     <span>查看密码</span>
                   </div>
-                  <!-- <div class="delete" @click="deleteDoor(door.id)">
+                  <div class="delete" @click="deleteDoor(door.id)">
                     <i class="iconfont icon-shanchu"></i>
-                  </div> -->
+                  </div>
                 </div>
               </div>
             </el-card>
@@ -53,17 +50,25 @@
       </el-col>
     </el-row>
 
-    <!-- 解锁门禁 -->
-    <el-dialog title="解锁门禁" v-model="unlockVisible" width="30%">
-      <el-form label-width="90px" :rules="rules" :model="form" ref="formRef">
-        <el-form-item label="password" prop="password">
-          <el-input v-model="form.password"></el-input>
+    <!-- 编辑门禁 -->
+    <el-dialog title="编辑门禁" v-model="editDoorVisible" width="30%">
+      <el-form
+        label-width="90px"
+        :rules="doorRules"
+        :model="door"
+        ref="formRef"
+      >
+        <el-form-item label="栋" prop="buildingNumber">
+          <el-input v-model="door.buildingNumber"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="door.password"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="unlockVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleOpen">解锁门禁</el-button>
+          <el-button @click="editDoorVisible = false">取 消</el-button>
+          <el-button type="primary" @click="handleDoorEdit">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -109,6 +114,7 @@ import {
   getActionStart,
   getActionUnlock,
   getPassword,
+  updateDoor,
 } from '../api/index';
 import { useRoute } from 'vue-router';
 import { ElMessage } from 'element-plus';
@@ -118,13 +124,19 @@ const doors = ref([]);
 const doorId = ref('');
 const password = ref('');
 // 是否显示弹窗
-let unlockVisible = ref(false);
+let editDoorVisible = ref(false);
 // 摄像头
 const cameralVisible = ref(false);
 // 是否显示添加门禁弹窗
 const addDoorVisible = ref(false);
 const form = ref({
   doorId: '',
+  password: '',
+});
+
+const door = ref({
+  id: '',
+  buildingNumber: '',
   password: '',
 });
 
@@ -164,6 +176,7 @@ const doorRules = ref({
   buildingNumber: [{ required: true, trigger: 'blur' }],
   password: [{ required: true, trigger: 'blur' }],
 });
+
 onBeforeMount(async () => {
   const data = await getDoors(communityId);
   doors.value = data;
@@ -278,6 +291,26 @@ const handleOpenPassword = async (_doorId) => {
   const res = await getPassword(_doorId);
   password.value = res;
   cameralVisible.value = true;
+};
+
+// 编辑门禁
+const handleEdit = (_door) => {
+  door.value = _door;
+  editDoorVisible.value = true;
+};
+
+// 编辑门禁
+const handleDoorEdit = () => {
+  formRef.value.validate(async (valid) => {
+    if (valid) {
+      const res = await updateDoor(door.value);
+      editDoorVisible.value = false;
+      if (res) {
+        const data = await getDoors(communityId);
+        doors.value = data;
+      }
+    }
+  });
 };
 </script>
 

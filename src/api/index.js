@@ -28,10 +28,11 @@ export const getUserList = () => {
  * 获取日志
  */
 
-export const getLog = () => {
+export const getLog = (keyword = ' ') => {
   return request({
     url: '/log/list',
     method: 'GET',
+    params: { keyword },
   });
 };
 
@@ -99,6 +100,17 @@ export const getDoors = (communityId) => {
 export const addDoor = (data) => {
   return request({
     url: '/door/create',
+    method: 'POST',
+    data,
+  });
+};
+
+/**
+ * 修改门禁
+ */
+export const updateDoor = (data) => {
+  return request({
+    url: '/door/update',
     method: 'POST',
     data,
   });
