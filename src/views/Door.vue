@@ -271,10 +271,8 @@ const deleteDoor = async (doorId) => {
   const res = await delateDoor(doorId);
   if (res === '删除成功') {
     ElMessage.success('删除成功');
-    const index = doors.value.findIndex((item) => item.id === doorId);
-    if (index !== 1) {
-      doors.value.splice(index, 1);
-    }
+    const data = await getDoors(communityId);
+    doors.value = data;
   } else {
     ElMessage.error('删除失败');
   }
